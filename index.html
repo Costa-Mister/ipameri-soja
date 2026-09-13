@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observatório Territorial Ipameri/GO (PIBIC-EM 2026-2027)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        editorial: ['Cinzel', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        academic: {
+                            bg: '#F8FAFC',
+                            surface: '#F1F5F9',
+                            card: '#FFFFFF',
+                            border: '#E2E8F0',
+                            text: '#0F172A',
+                            muted: '#64748B'
+                        },
+                        wine: {
+                            DEFAULT: '#7A1C30',
+                            hover: '#5F1424',
+                            light: '#FDF2F4',
+                            border: '#F9ACBA'
+                        },
+                        ifgreen: { 
+                            DEFAULT: '#138836', 
+                            hover: '#0E6A2A', 
+                            soft: '#DCFCE7',
+                            border: '#86EFAC'
+                        },
+                        pastelYellow: { DEFAULT: '#F59E0B', soft: '#FEF3C7', border: '#FDE68A' },
+                        pastelBlue: { DEFAULT: '#3B82F6', soft: '#DBEAFE', border: '#BFDBFE' },
+                        pastelOrange: { DEFAULT: '#F97316', soft: '#FFEDD5', border: '#FDBA74' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #7A1C30;
+            border-radius: 4px;
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; }
+            #print-area { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col font-sans antialiased bg-academic-bg text-academic-text selection:bg-wine selection:text-white">
+
+    <div id="landing-screen" class="fixed inset-0 z-50 flex flex-col justify-between p-6 sm:p-12 md:p-16 bg-academic-bg overflow-y-auto transition-opacity duration-500">
+        
+        <!-- Header Capa Minimalista -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-academic-border pb-6 max-w-6xl mx-auto w-full">
+            <div class="font-mono text-xs font-bold text-ifgreen tracking-widest uppercase flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-ifgreen inline-block"></span>
+                INSTITUTO FEDERAL GOIANO — CAMPUS IPAMERI (CMPIPA)
+            </div>
+            
+            <div class="font-mono text-xs text-academic-muted font-semibold bg-academic-surface px-3 py-1 rounded-full border border-academic-border">
+                PIBIC-EM EDITAL Nº 14 DE 11 DE MAIO DE 2026
+            </div>
+        </div>
+
+        <!-- Conteúdo Principal da Capa -->
+        <div class="my-auto py-10 max-w-4xl mx-auto w-full space-y-8 text-left">
+            <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+                <span class="px-3 py-1 bg-wine-light text-wine font-bold rounded-md border border-wine-border uppercase">
+                    PROJETO DE INICIAÇÃO CIENTÍFICA JÚNIOR
+                </span>
+                <span class="px-3 py-1 bg-academic-surface text-academic-muted font-bold rounded-md border border-academic-border">
+                    VIGÊNCIA: 01/09/2026 A 31/08/2027
+                </span>
+            </div>
+
+            <h1 class="font-editorial text-3xl sm:text-5xl md:text-6xl font-extrabold text-wine leading-tight tracking-tight">
+                Desenvolvimento Territorial e Modernização Agrícola: os impactos da sojicultura no município de Ipameri/GO, 2025
+            </h1>
+
+            <p class="text-base sm:text-xl text-academic-muted font-normal leading-relaxed border-l-4 border-wine pl-4 bg-white/50 py-2 rounded-r-lg">
+                Estudo abrangente sobre as dinâmicas de expansão da monocultura de soja, transformações na estrutura agrária, setor de serviços urbanos e o mercado de trabalho formal no município de Ipameri/GO.
+            </p>
+
+            <!-- Integrantes -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6 border-t border-b border-academic-border py-8 font-mono text-xs">
+                <div class="p-4 bg-white rounded-xl border border-academic-border shadow-sm">
+                    <span class="font-bold text-ifgreen uppercase block mb-1">Bolsista Pesquisador</span>
+                    <p class="font-bold text-academic-text text-sm">Gabriel Costa Carneiro</p>
+                    <p class="text-academic-muted mt-0.5">Matrícula: 2025112100210015</p>
+                    <p class="text-academic-muted">Técnico em Administração Integrado ao Ensino Médio</p>
+                </div>
+
+                <div class="p-4 bg-white rounded-xl border border-academic-border shadow-sm">
+                    <span class="font-bold text-wine uppercase block mb-1">Professor Orientador</span>
+                    <p class="font-bold text-academic-text text-sm">Prof. Dr. Diego Pinheiro Alencar</p>
+                    <p class="text-academic-muted mt-0.5">Matrícula SIAPE: 1659431</p>
+                    <p class="text-academic-muted">IF Goiano Campus Ipameri</p>
+                </div>
+            </div>
+
+            <div class="pt-2 flex items-center gap-4">
+                <button onclick="enterPlatform()" class="px-8 py-4 bg-wine hover:bg-wine-hover text-white font-mono text-xs font-bold rounded-xl transition-all flex items-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    <span>EXPLORAR OBSERVATÓRIO TERRITORIAL</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer Capa -->
+        <div class="max-w-6xl mx-auto w-full border-t border-academic-border pt-4 flex flex-col sm:flex-row justify-between items-center text-xs text-academic-muted gap-2 font-mono">
+            <p>© Observatório do Desenvolvimento Territorial — IF Goiano Campus Ipameri</p>
+            <p class="text-wine font-bold">Vigência: 01/09/2026 a 31/08/2027</p>
+        </div>
+    </div>
+
+    <div id="main-platform" class="flex-1 flex flex-col min-h-screen hidden">
+        
+        <header class="bg-white text-academic-text shadow-sm sticky top-0 z-40 border-b border-academic-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-20">
+                    
+                    <div class="flex items-center space-x-3">
+                        <button onclick="exitPlatform()" class="px-3 py-2 bg-academic-surface hover:bg-academic-border text-academic-text font-mono text-xs font-bold rounded-lg transition flex items-center gap-2 border border-academic-border">
+                            <i class="fa-solid fa-house text-wine"></i>
+                            <span class="hidden sm:inline">Capa</span>
+                        </button>
+                        <div class="h-6 w-px bg-academic-border hidden sm:block"></div>
+                        <div>
+                            <h2 class="font-editorial text-sm sm:text-base font-bold text-wine leading-tight">Observatório Territorial Ipameri/GO</h2>
+                            <p class="font-mono text-[10px] text-ifgreen font-bold">PIBIC-EM 2026/2027 • IF Goiano Campus Ipameri</p>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Tabs (7 Complete Tabs) -->
+                    <nav class="hidden lg:flex space-x-1 bg-academic-surface p-1 rounded-xl border border-academic-border font-mono">
+                        <button onclick="switchTab('visao-geral')" id="tab-visao-geral" class="nav-btn active px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 text-academic-muted hover:text-wine">
+                            <i class="fa-solid fa-compass text-wine"></i> <span>Visão Geral</span>
+                        </button>
+                        <button onclick="switchTab('dados')" id="tab-dados" class="nav-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 text-academic-muted hover:text-wine">
+                            <i class="fa-solid fa-database text-pastelBlue"></i> <span>Banco de Dados</span>
+                        </button>
+                        <button onclick="switchTab('cronograma')" id="tab-cronograma" class="nav-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 text-academic-muted hover:text-wine">
+                            <i class="fa-solid fa-list-check text-pastelYellow"></i> <span>Cronograma</span>
+                        </button>
+                        <button onclick="switchTab('leituras')" id="tab-leituras" class="nav-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 text-academic-muted hover:text-wine">
+                            <i class="fa-solid fa-book-open text-pastelOrange"></i> <span>Fichamentos</span>
+                        </button>
+                        <button onclick="switchTab('relatorio')" id="tab-relatorio" class="nav-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 text-academic-muted hover:text-wine">
+                            <i class="fa-solid fa-pen-nib text-wine"></i> <span>Relatório ABNT</span>
+                        </button>
+                        <button onclick="switchTab('folheto')" id="tab-folheto" class="nav-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 text-academic-muted hover:text-wine">
+                            <i class="fa-solid fa-file-pdf text-ifgreen"></i> <span>Dossiê Executivo</span>
+                        </button>
+                        <button onclick="switchTab('equipe')" id="tab-equipe" class="nav-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 text-academic-muted hover:text-wine">
+                            <i class="fa-solid fa-id-card text-wine"></i> <span>Equipe & SUAP</span>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="lg:hidden flex flex-wrap justify-around bg-academic-surface p-2 border-t border-academic-border font-mono text-[11px] gap-1 overflow-x-auto">
+                <button onclick="switchTab('visao-geral')" class="p-1.5 text-wine font-bold">Visão Geral</button>
+                <button onclick="switchTab('dados')" class="p-1.5 text-wine font-bold">Dados</button>
+                <button onclick="switchTab('cronograma')" class="p-1.5 text-wine font-bold">Cronograma</button>
+                <button onclick="switchTab('leituras')" class="p-1.5 text-wine font-bold">Fichas</button>
+                <button onclick="switchTab('relatorio')" class="p-1.5 text-wine font-bold">Relatório</button>
+                <button onclick="switchTab('folheto')" class="p-1.5 text-wine font-bold">Dossiê</button>
+                <button onclick="switchTab('equipe')" class="p-1.5 text-wine font-bold">Equipe</button>
+            </div>
+        </header>
+
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+            <section id="sec-visao-geral" class="tab-content space-y-8">
+                
+                <!-- Hero Header -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-academic-border shadow-sm space-y-4 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-wine"></div>
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <span class="px-3 py-1 bg-wine-light text-wine font-mono text-xs font-bold rounded-full border border-wine-border">
+                                MÓDULO INTRODUTÓRIO & SÍNTESE DO PROJETO
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-editorial font-bold text-wine mt-2">
+                                Visão Geral do Projeto PIBIC-EM
+                            </h1>
+                        </div>
+                        <div class="flex gap-2 font-mono text-xs">
+                            <span class="px-3 py-1.5 bg-ifgreen-soft text-ifgreen font-bold rounded-lg border border-ifgreen-border flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-check"></i> Projeto Ativo (2026/2027)
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-academic-muted text-sm sm:text-base leading-relaxed">
+                        Esta plataforma constitui o repositório dinâmico e observatório de dados do projeto de Iniciação Científica Júnior sob o Edital Nº 14/2026 do IF Goiano Campus Ipameri. A pesquisa analisa de forma crítica e quantitativa a territorialização do agronegócio e seus rebatimentos socioeconômicos.
+                    </p>
+                </div>
+
+                <!-- Strategic Summary Highlights Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div class="bg-white p-5 rounded-2xl border border-academic-border shadow-sm space-y-2 border-l-4 border-l-ifgreen">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-mono font-bold text-ifgreen uppercase">Área Soja (IBGE 2024)</span>
+                            <span class="p-2 bg-ifgreen-soft rounded-lg text-ifgreen text-xs"><i class="fa-solid fa-seedling"></i></span>
+                        </div>
+                        <h3 class="text-2xl font-bold font-mono text-academic-text">104.000 ha</h3>
+                        <p class="text-xs text-academic-muted">Corresponde a <strong class="text-ifgreen">23,73%</strong> da área total de Ipameri (4.368,6 km²).</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-academic-border shadow-sm space-y-2 border-l-4 border-l-wine">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-mono font-bold text-wine uppercase">Produção (IBGE 2024)</span>
+                            <span class="p-2 bg-wine-light rounded-lg text-wine text-xs"><i class="fa-solid fa-wheat-awn"></i></span>
+                        </div>
+                        <h3 class="text-2xl font-bold font-mono text-academic-text">3,43 mi ton</h3>
+                        <p class="text-xs text-academic-muted"><strong class="text-wine">10º maior produtor de GO</strong> (Crescimento de 3,33x desde 2000).</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-academic-border shadow-sm space-y-2 border-l-4 border-l-pastelBlue">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-mono font-bold text-pastelBlue uppercase">Serviços Formais (RAIS)</span>
+                            <span class="p-2 bg-pastelBlue-soft rounded-lg text-pastelBlue text-xs"><i class="fa-solid fa-briefcase"></i></span>
+                        </div>
+                        <h3 class="text-2xl font-bold font-mono text-academic-text">2.194 vínculos</h3>
+                        <p class="text-xs text-academic-muted">Maior setor em postos de trabalho formais na área urbana.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-academic-border shadow-sm space-y-2 border-l-4 border-l-pastelYellow">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-mono font-bold text-pastelYellow uppercase">PIB Agropecuário</span>
+                            <span class="p-2 bg-pastelYellow-soft rounded-lg text-pastelYellow text-xs"><i class="fa-solid fa-chart-pie"></i></span>
+                        </div>
+                        <h3 class="text-2xl font-bold font-mono text-academic-text">37,97%</h3>
+                        <p class="text-xs text-academic-muted">Principal força motora na composição econômica do PIB total.</p>
+                    </div>
+                </div>
+
+                <!-- Academic Research Context & Problem Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Problem & Objectives -->
+                        <div class="bg-white p-6 rounded-2xl border border-academic-border shadow-sm space-y-4">
+                            <h3 class="font-editorial text-lg font-bold text-wine flex items-center gap-2">
+                                <i class="fa-solid fa-circle-question text-wine"></i> Problematização Científica
+                            </h3>
+                            <p class="text-xs sm:text-sm text-academic-text leading-relaxed">
+                                A aceleração da modernização agrícola no Cerrado goiano transformou o município de Ipameri/GO em um expressivo polo de produção de <em>commodities</em>. No entanto, o forte avanço da monocultura de soja coloca em evidência uma dualidade territorial: enquanto a agricultura de precisão demanda elevados volumes de capital e tecnologia, o mercado de trabalho local passa por intensas reestruturações, expandindo o consumo produtivo de insumos e reconfigurando o setor de serviços urbanos.
+                            </p>
+                            
+                            <h4 class="font-mono text-xs font-bold text-ifgreen uppercase border-t border-academic-border pt-4">Objetivos Centrais da Pesquisa:</h4>
+                            <ul class="space-y-2 text-xs text-academic-text font-mono">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-ifgreen mt-0.5"></i>
+                                    <span>Sistematizar indicadores censitários (IBGE/PAM) e do mercado de trabalho (RAIS/MTE).</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-ifgreen mt-0.5"></i>
+                                    <span>Mapear a expansão espacial dos 104.000 hectares de soja sobre o território municipal.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-ifgreen mt-0.5"></i>
+                                    <span>Analisar a conexão entre modernização no campo e demanda por serviços técnicos na cidade.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Quick Links to Interactive Modules -->
+                        <div class="bg-white p-6 rounded-2xl border border-academic-border shadow-sm space-y-4">
+                            <h3 class="font-editorial text-lg font-bold text-wine flex items-center gap-2">
+                                <i class="fa-solid fa-cubes text-wine"></i> Acesso Rápido aos Módulos do Observatório
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
+                                <button onclick="switchTab('dados')" class="p-4 bg-academic-surface hover:bg-wine-light text-left rounded-xl border border-academic-border transition group">
+                                    <i class="fa-solid fa-database text-pastelBlue text-lg mb-2 group-hover:scale-110 transition-transform"></i>
+                                    <strong class="block text-academic-text group-hover:text-wine">Banco de Dados</strong>
+                                    <span class="text-[10px] text-academic-muted">IBGE, RAIS e PIB local</span>
+                                </button>
+                                <button onclick="switchTab('leituras')" class="p-4 bg-academic-surface hover:bg-wine-light text-left rounded-xl border border-academic-border transition group">
+                                    <i class="fa-solid fa-book-open text-pastelOrange text-lg mb-2 group-hover:scale-110 transition-transform"></i>
+                                    <strong class="block text-academic-text group-hover:text-wine">Fichamentos</strong>
+                                    <span class="text-[10px] text-academic-muted">Santos, Castilho e autores</span>
+                                </button>
+                                <button onclick="switchTab('relatorio')" class="p-4 bg-academic-surface hover:bg-wine-light text-left rounded-xl border border-academic-border transition group">
+                                    <i class="fa-solid fa-pen-nib text-wine text-lg mb-2 group-hover:scale-110 transition-transform"></i>
+                                    <strong class="block text-academic-text group-hover:text-wine">Relatório ABNT</strong>
+                                    <span class="text-[10px] text-academic-muted">Redação e exportação</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Panel: Fast Metadata -->
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-2xl border border-academic-border shadow-sm space-y-4 font-mono text-xs">
+                            <h3 class="font-bold text-wine text-sm border-b border-academic-border pb-2 flex items-center justify-between">
+                                <span>FICHA DA PESQUISA</span>
+                                <i class="fa-solid fa-circle-info text-wine"></i>
+                            </h3>
+
+                            <div class="space-y-3">
+                                <div>
+                                    <span class="text-[10px] text-academic-muted block font-bold uppercase">Edital Institucional</span>
+                                    <p class="font-bold text-academic-text">Edital Nº 14/2026 (11/05/2026)</p>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-academic-muted block font-bold uppercase">Modalidade</span>
+                                    <p class="font-bold text-ifgreen">PIBIC-EM (Iniciação Científica Júnior)</p>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-academic-muted block font-bold uppercase">Período de Execução</span>
+                                    <p class="font-bold text-academic-text">01/09/2026 a 31/08/2027</p>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-academic-muted block font-bold uppercase">Bolsista Pesquisador</span>
+                                    <p class="font-bold text-academic-text">Gabriel Costa Carneiro</p>
+                                    <p class="text-[10px] text-academic-muted">Técnico em Administração Integrado</p>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-academic-muted block font-bold uppercase">Professor Orientador</span>
+                                    <p class="font-bold text-academic-text">Prof. Dr. Diego Pinheiro Alencar</p>
+                                    <p class="text-[10px] text-academic-muted">SIAPE: 1659431</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Macro Indicators Summary -->
+                        <div class="bg-wine p-6 rounded-2xl shadow-sm text-white space-y-4 font-mono text-xs">
+                            <h3 class="font-bold text-sm text-pastelYellow flex items-center gap-2">
+                                <i class="fa-solid fa-chart-line"></i> DADOS RELEVANTES IPAMERI
+                            </h3>
+                            <div class="space-y-2">
+                                <div class="flex justify-between border-b border-white/20 pb-1">
+                                    <span>Área Municipal Total:</span>
+                                    <span class="font-bold">4.368,6 km²</span>
+                                </div>
+                                <div class="flex justify-between border-b border-white/20 pb-1">
+                                    <span>Vínculos Agropecuária:</span>
+                                    <span class="font-bold text-pastelYellow">1.400 postos</span>
+                                </div>
+                                <div class="flex justify-between border-b border-white/20 pb-1">
+                                    <span>Vínculos Comércio:</span>
+                                    <span class="font-bold text-pastelYellow">1.043 postos</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>PIB Indústria:</span>
+                                    <span class="font-bold">31,34%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section id="sec-dados" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl font-editorial font-bold text-wine">Banco de Dados Socioeconômicos & Territoriais</h2>
+                        <p class="text-xs text-academic-muted font-mono">Indicadores oficiais do município de Ipameri/GO (IBGE PAM 2024 / RAIS 2021 / PIB 2021).</p>
+                    </div>
+                    <button onclick="openModalDado()" class="px-4 py-2 bg-ifgreen hover:bg-ifgreen-hover text-white font-mono text-xs font-bold rounded-xl shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Novo Registro</span>
+                    </button>
+                </div>
+
+                <!-- Strategic Summary Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-xl border border-academic-border shadow-sm space-y-1 border-l-4 border-l-ifgreen">
+                        <p class="text-[10px] font-mono text-ifgreen font-bold uppercase">Área Soja (IBGE 2024)</p>
+                        <h3 class="text-2xl font-bold font-mono text-academic-text">104.000 ha</h3>
+                        <p class="text-xs text-academic-muted">23,73% da área total do município</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-academic-border shadow-sm space-y-1 border-l-4 border-l-wine">
+                        <p class="text-[10px] font-mono text-wine font-bold uppercase">Produção (IBGE 2024)</p>
+                        <h3 class="text-2xl font-bold font-mono text-academic-text">3,43 mi ton</h3>
+                        <p class="text-xs text-academic-muted">10º Maior Produtor de Goiás</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-academic-border shadow-sm space-y-1 border-l-4 border-l-pastelBlue">
+                        <p class="text-[10px] font-mono text-pastelBlue font-bold uppercase">Empregos Serviços (RAIS 2021)</p>
+                        <h3 class="text-2xl font-bold font-mono text-academic-text">2.194 vínculos</h3>
+                        <p class="text-xs text-academic-muted">Maior participação formal no setor urbano</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-academic-border shadow-sm space-y-1 border-l-4 border-l-pastelYellow">
+                        <p class="text-[10px] font-mono text-pastelYellow font-bold uppercase">PIB Agropecuário (2021)</p>
+                        <h3 class="text-2xl font-bold font-mono text-academic-text">37,97%</h3>
+                        <p class="text-xs text-academic-muted">Predominância na composição econômica</p>
+                    </div>
+                </div>
+
+                <!-- Charts Container -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-5 rounded-xl border border-academic-border shadow-sm space-y-2">
+                        <h3 class="text-xs font-bold text-academic-text font-mono flex items-center gap-2">
+                            <i class="fa-solid fa-chart-pie text-pastelBlue"></i> VÍNCULOS EMPREGATÍCIOS FORMAIS (RAIS 2021)
+                        </h3>
+                        <div class="h-64 flex justify-center"><canvas id="chartEmprego"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-academic-border shadow-sm space-y-2">
+                        <h3 class="text-xs font-bold text-academic-text font-mono flex items-center gap-2">
+                            <i class="fa-solid fa-chart-column text-ifgreen"></i> COMPOSIÇÃO DO PIB DE IPAMERI (IBGE 2021)
+                        </h3>
+                        <div class="h-64 flex justify-center"><canvas id="chartPIB"></canvas></div>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="bg-white rounded-xl border border-academic-border overflow-hidden shadow-sm">
+                    <div class="p-4 border-b border-academic-border flex flex-col sm:flex-row justify-between items-center gap-3 bg-academic-surface font-mono">
+                        <h3 class="font-bold text-wine text-xs uppercase">Tabela Geral de Indicadores PIBIC-EM</h3>
+                        <input type="text" id="search-dados" onkeyup="filterTabela()" placeholder="Buscar indicador, fonte..." class="text-xs px-3 py-1.5 bg-white border border-academic-border rounded-lg outline-none w-full sm:w-64 focus:border-wine">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-academic-bg text-academic-muted font-mono font-bold border-b border-academic-border">
+                                    <th class="p-3">Categoria</th>
+                                    <th class="p-3">Indicador</th>
+                                    <th class="p-3">Ano</th>
+                                    <th class="p-3">Valor / Estatística</th>
+                                    <th class="p-3">Fonte Oficial</th>
+                                    <th class="p-3 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-dados-body" class="divide-y divide-academic-border text-academic-text"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-cronograma" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl font-editorial font-bold text-wine">Cronograma & Metas de Execução PIBIC-EM</h2>
+                        <p class="text-xs text-academic-muted font-mono">Acompanhamento das Metas 1 a 4 (Edital Nº 14/2026 • 01/09/2026 a 31/08/2027).</p>
+                    </div>
+                    <button onclick="openModalTarefa()" class="px-4 py-2 bg-ifgreen hover:bg-ifgreen-hover text-white font-mono text-xs font-bold rounded-xl shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Adicionar Atividade</span>
+                    </button>
+                </div>
+
+                <!-- Progress Bar Card -->
+                <div class="bg-white p-6 rounded-xl border border-academic-border shadow-sm space-y-3 font-mono">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-academic-text">Progresso Geral das Metas SUAP:</span>
+                        <span id="progress-percent-text" class="font-bold text-ifgreen">0%</span>
+                    </div>
+                    <div class="w-full h-3 bg-academic-surface rounded-full overflow-hidden border border-academic-border">
+                        <div id="progress-bar-fill" class="h-full bg-ifgreen transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Cronograma Table -->
+                <div class="bg-white rounded-xl border border-academic-border overflow-hidden shadow-sm">
+                    <div class="p-4 border-b border-academic-border flex flex-col sm:flex-row justify-between items-center gap-3 bg-academic-surface font-mono">
+                        <h3 class="font-bold text-wine text-xs uppercase">Etapas e Metas Cadastradas</h3>
+                        <select id="filter-status" onchange="renderCronograma()" class="px-2 py-1 bg-white border border-academic-border rounded font-bold text-academic-text text-xs outline-none">
+                            <option value="TODOS">Todos os Status</option>
+                            <option value="Concluído">Concluídos</option>
+                            <option value="Em Andamento">Em Andamento</option>
+                            <option value="Pendente">Pendentes</option>
+                        </select>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-academic-bg text-academic-muted font-mono font-bold border-b border-academic-border">
+                                    <th class="p-3 w-12 text-center">Check</th>
+                                    <th class="p-3">Período / Prazo</th>
+                                    <th class="p-3">Meta / Descrição da Atividade</th>
+                                    <th class="p-3">Categoria</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-cronograma-body" class="divide-y divide-academic-border text-academic-text"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-leituras" class="tab-content hidden space-y-6">
+                <div>
+                    <h2 class="text-xl font-editorial font-bold text-wine">Fichamentos & Referencial Teórico</h2>
+                    <p class="text-xs text-academic-muted font-mono">Fichamentos conceituais e autores de referência da pesquisa agrária e territorial (Santos, Castilho, Leão, Chaul, Arrais, Alencar).</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Form Novo Fichamento -->
+                    <div class="bg-white p-6 rounded-xl border border-academic-border space-y-4 h-fit shadow-sm">
+                        <h3 class="font-bold text-wine text-xs border-b border-academic-border pb-2 flex items-center gap-2 font-mono">
+                            <i class="fa-solid fa-bookmark text-wine"></i> NOVO FICHAMENTO
+                        </h3>
+                        <form id="form-fichamento" onsubmit="saveFichamento(event)" class="space-y-3 font-mono text-xs">
+                            <div>
+                                <label class="block font-bold text-academic-text mb-1">Referência ABNT</label>
+                                <input type="text" id="fich-titulo" required placeholder="Ex: SANTOS, Milton (2008). A Natureza do Espaço..." class="w-full p-2.5 border border-academic-border rounded-lg outline-none bg-academic-bg text-academic-text focus:border-wine">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-academic-text mb-1">Palavras-chave / Tags</label>
+                                <input type="text" id="fich-tags" placeholder="Ex: #MeioTécnico #Agronegócio" class="w-full p-2.5 border border-academic-border rounded-lg outline-none bg-academic-bg text-academic-text focus:border-wine">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-academic-text mb-1">Excerto / Síntese Crítica</label>
+                                <textarea id="fich-conteudo" rows="5" required placeholder="Digite a citação e a análise para Ipameri/GO..." class="w-full p-2.5 border border-academic-border rounded-lg outline-none bg-academic-bg text-academic-text custom-scrollbar focus:border-wine"></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-3 bg-wine hover:bg-wine-hover text-white font-bold rounded-xl transition shadow-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>Salvar Fichamento</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Lista de Fichamentos -->
+                    <div class="lg:col-span-2 space-y-4">
+                        <div id="fichamentos-container" class="space-y-4"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-relatorio" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl font-editorial font-bold text-wine">Editor de Relatório Técnico (Normas ABNT)</h2>
+                        <p class="text-xs text-academic-muted font-mono">Redação e elaboração das seções acadêmicas do relatório final PIBIC-EM com contador de palavras.</p>
+                    </div>
+                    <div class="flex gap-2 font-mono text-xs">
+                        <button onclick="saveRelatorioText()" class="px-4 py-2 bg-ifgreen hover:bg-ifgreen-hover text-white font-bold rounded-xl shadow-sm flex items-center gap-2">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Salvar Rascunho</span>
+                        </button>
+                        <button onclick="printRelatorio()" class="px-4 py-2 bg-wine text-white font-bold rounded-xl shadow-sm flex items-center gap-2">
+                            <i class="fa-solid fa-print"></i>
+                            <span>Imprimir / Exportar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="relatorio-editor-card" class="bg-white p-8 sm:p-12 rounded-xl border border-academic-border shadow-sm space-y-6 font-sans">
+                    <div class="text-center space-y-2 border-b border-academic-border pb-6 font-mono">
+                        <p class="text-xs font-bold text-ifgreen uppercase">INSTITUTO FEDERAL GOIANO — CAMPUS IPAMERI</p>
+                        <p class="text-xs text-academic-muted">PROGRAMA INSTITUCIONAL DE BOLSAS DE INICIAÇÃO CIENTÍFICA (PIBIC-EM)</p>
+                        <h3 class="text-lg font-editorial font-bold text-wine mt-2">RELATÓRIO TÉCNICO DE PESQUISA (2026-2027)</h3>
+                    </div>
+
+                    <div class="space-y-6 text-sm text-academic-text">
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center font-mono text-xs">
+                                <h4 class="font-bold text-wine uppercase">1. Introdução e Contextualização Territorial</h4>
+                                <span id="word-count-1" class="text-academic-muted">0 palavras</span>
+                            </div>
+                            <textarea id="rel-sec-1" oninput="updateWordCounts()" rows="4" class="w-full p-3 border border-academic-border rounded-lg font-sans text-xs leading-relaxed focus:border-wine outline-none" placeholder="Escreva sobre o avanço da soja em Ipameri..."></textarea>
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center font-mono text-xs">
+                                <h4 class="font-bold text-wine uppercase">2. Reestruturação do Trabalho Formal e Setor de Serviços</h4>
+                                <span id="word-count-2" class="text-academic-muted">0 palavras</span>
+                            </div>
+                            <textarea id="rel-sec-2" oninput="updateWordCounts()" rows="4" class="w-full p-3 border border-academic-border rounded-lg font-sans text-xs leading-relaxed focus:border-wine outline-none" placeholder="Análise com dados da RAIS (2.194 empregos em serviços)..."></textarea>
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center font-mono text-xs">
+                                <h4 class="font-bold text-wine uppercase">3. Impactos Socioambientais e Considerações Finais</h4>
+                                <span id="word-count-3" class="text-academic-muted">0 palavras</span>
+                            </div>
+                            <textarea id="rel-sec-3" oninput="updateWordCounts()" rows="4" class="w-full p-3 border border-academic-border rounded-lg font-sans text-xs leading-relaxed focus:border-wine outline-none" placeholder="Discussão sobre recursos hídricos e dinâmica do bioma Cerrado..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-folheto" class="tab-content hidden space-y-6">
+                <div class="flex justify-between items-center no-print">
+                    <div>
+                        <h2 class="text-xl font-editorial font-bold text-wine">Dossiê Executivo Síntese (Folheto Acadêmico)</h2>
+                        <p class="text-xs text-academic-muted font-mono">Síntese dinâmica reativa atualizada ao vivo conforme o banco de dados e tarefas.</p>
+                    </div>
+                    <button onclick="window.print()" class="px-4 py-2 bg-ifgreen hover:bg-ifgreen-hover text-white font-mono text-xs font-bold rounded-xl shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-print"></i>
+                        <span>Imprimir Dossiê Completo</span>
+                    </button>
+                </div>
+
+                <div id="print-area" class="bg-white p-8 sm:p-12 rounded-xl border border-academic-border shadow-md space-y-8 max-w-4xl mx-auto">
+                    <!-- Header Dossiê -->
+                    <div class="border-b-2 border-wine pb-6 text-center space-y-2">
+                        <div class="inline-block bg-ifgreen text-white font-mono text-[11px] font-bold px-3 py-1 rounded-md">
+                            INSTITUTO FEDERAL GOIANO — CAMPUS IPAMERI
+                        </div>
+                        <h1 class="font-editorial text-2xl sm:text-3xl font-bold text-wine">
+                            DOSSIÊ EXECUTIVO DE PESQUISA PIBIC-EM
+                        </h1>
+                        <p class="font-mono text-xs text-academic-muted">Edital Nº 14/2026 • Período de Execução: 01/09/2026 a 31/08/2027</p>
+                    </div>
+
+                    <!-- Ficha Institucional -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-academic-surface p-4 rounded-xl border border-academic-border font-mono text-xs">
+                        <div><strong class="text-wine">Projeto:</strong> Desenvolvimento Territorial e Modernização Agrícola em Ipameri/GO</div>
+                        <div><strong class="text-wine">Orientador:</strong> Prof. Dr. Diego Pinheiro Alencar (SIAPE 1659431)</div>
+                        <div><strong class="text-wine">Bolsista:</strong> Gabriel Costa Carneiro (Mat. 2025112100210015)</div>
+                        <div><strong class="text-wine">Curso:</strong> Téc. em Adm. Integrado ao Ensino Médio</div>
+                    </div>
+
+                    <!-- Dynamic Metrics Block -->
+                    <div class="space-y-3">
+                        <h3 class="font-editorial text-base font-bold text-wine border-b border-academic-border pb-1">
+                            Indicadores Chave de Ipameri/GO
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
+                            <div class="p-4 bg-academic-bg border border-academic-border rounded-xl">
+                                <span class="text-ifgreen font-bold block text-base">104.000 ha</span>
+                                <span class="text-academic-muted">Área de Soja (23,73% da área total)</span>
+                            </div>
+                            <div class="p-4 bg-academic-bg border border-academic-border rounded-xl">
+                                <span class="text-wine font-bold block text-base">3,43 Milhões ton</span>
+                                <span class="text-academic-muted">Produção Colhida (10º em GO)</span>
+                            </div>
+                            <div class="p-4 bg-academic-bg border border-academic-border rounded-xl">
+                                <span class="text-pastelBlue font-bold block text-base">2.194 Vínculos</span>
+                                <span class="text-academic-muted">Empregos Formais em Serviços</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reactive Dynamic Synthesis -->
+                    <div class="space-y-3 font-mono text-xs">
+                        <h3 class="font-editorial text-base font-bold text-wine border-b border-academic-border pb-1">
+                            Status e Dinâmica da Pesquisa
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 border border-academic-border rounded-xl bg-academic-bg">
+                                <span class="text-academic-muted block font-bold">FICHAMENTOS CADASTRADOS:</span>
+                                <span id="dos-fich-count" class="text-lg font-bold text-wine">0 Obras</span>
+                            </div>
+                            <div class="p-4 border border-academic-border rounded-xl bg-academic-bg">
+                                <span class="text-academic-muted block font-bold">PROGRESSO DAS METAS:</span>
+                                <span id="dos-progress-val" class="text-lg font-bold text-ifgreen">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-academic-border pt-4 text-center font-mono text-[10px] text-academic-muted">
+                        <p>Documento gerado pelo Observatório Territorial • IF Goiano Campus Ipameri (PIBIC-EM 2026/2027)</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-equipe" class="tab-content hidden space-y-6">
+                <div>
+                    <h2 class="text-xl font-editorial font-bold text-wine">Equipe Técnica & Dados Institucionais SUAP</h2>
+                    <p class="text-xs text-academic-muted font-mono">Ficha institucional do projeto homologado no Edital Nº 14/2026 PIBIC-EM.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
+                    <!-- Integrante 1: Orientador -->
+                    <div class="bg-white p-6 rounded-2xl border border-academic-border shadow-sm space-y-4">
+                        <div class="flex items-center gap-3 border-b border-academic-border pb-3">
+                            <div class="w-12 h-12 bg-wine-light text-wine rounded-xl flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-sm text-academic-text">Prof. Dr. Diego Pinheiro Alencar</h3>
+                                <p class="text-wine font-bold text-[11px]">ORIENTADOR DO PROJETO</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-academic-muted">
+                            <p><strong class="text-academic-text">Matrícula SIAPE:</strong> 1659431</p>
+                            <p><strong class="text-academic-text">Instituição:</strong> Instituto Federal Goiano — Campus Ipameri</p>
+                            <p><strong class="text-academic-text">Área de Atuação:</strong> Geografia Agrária, Desenvolvimento Territorial e Análise Espacial</p>
+                        </div>
+                    </div>
+
+                    <!-- Integrante 2: Bolsista -->
+                    <div class="bg-white p-6 rounded-2xl border border-academic-border shadow-sm space-y-4">
+                        <div class="flex items-center gap-3 border-b border-academic-border pb-3">
+                            <div class="w-12 h-12 bg-ifgreen-soft text-ifgreen rounded-xl flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-user-graduate"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-sm text-academic-text">Gabriel Costa Carneiro</h3>
+                                <p class="text-ifgreen font-bold text-[11px]">BOLSISTA PESQUISADOR (PIBIC-EM)</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-academic-muted">
+                            <p><strong class="text-academic-text">Matrícula Discente:</strong> 2025112100210015</p>
+                            <p><strong class="text-academic-text">Curso:</strong> Técnico em Administração Integrado ao Ensino Médio</p>
+                            <p><strong class="text-academic-text">Campus:</strong> IF Goiano Campus Ipameri</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel SUAP -->
+                <div class="bg-white p-6 rounded-2xl border border-academic-border shadow-sm space-y-4 font-mono text-xs">
+                    <h3 class="font-bold text-wine text-sm border-b border-academic-border pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-file-contract"></i> HOMOLOGAÇÃO INSTITUCIONAL SUAP
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="p-3 bg-academic-surface rounded-xl">
+                            <span class="text-academic-muted block font-bold text-[10px]">EDITAL:</span>
+                            <span class="font-bold text-academic-text">Edital Nº 14 de 11/05/2026</span>
+                        </div>
+                        <div class="p-3 bg-academic-surface rounded-xl">
+                            <span class="text-academic-muted block font-bold text-[10px]">VIGÊNCIA OFICIAL:</span>
+                            <span class="font-bold text-academic-text">01/09/2026 a 31/08/2027</span>
+                        </div>
+                        <div class="p-3 bg-academic-surface rounded-xl">
+                            <span class="text-academic-muted block font-bold text-[10px]">ORGANISMO:</span>
+                            <span class="font-bold text-academic-text">PIBIC-EM / IF Goiano</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="bg-white text-academic-muted border-t border-academic-border mt-auto py-6 font-mono text-xs no-print">
+            <div class="max-w-7xl mx-auto px-4 text-center space-y-1">
+                <p class="font-bold text-wine">Observatório do Desenvolvimento Territorial — IF Goiano Campus Ipameri</p>
+                <p class="text-[10px] text-academic-muted">Bolsista: Gabriel Costa Carneiro | Orientador: Prof. Dr. Diego Pinheiro Alencar</p>
+            </div>
+        </footer>
+    </div>
+
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div id="atlas-chat-box" class="hidden mb-3 w-80 sm:w-96 bg-white border border-academic-border rounded-2xl shadow-2xl overflow-hidden font-mono text-xs flex flex-col">
+            <div class="bg-wine text-white p-3 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-ifgreen animate-pulse"></span>
+                    <span class="font-bold">Atlas — Assistente Cartográfico</span>
+                </div>
+                <button onclick="toggleAtlasChat()" class="text-white/80 hover:text-white font-bold"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div id="atlas-messages" class="p-3 h-64 overflow-y-auto space-y-2 bg-academic-bg custom-scrollbar text-academic-text">
+                <div class="bg-wine-light p-2.5 rounded-xl border border-wine-border">
+                    <strong class="text-wine block mb-1 font-bold"><i class="fa-solid fa-globe"></i> Atlas:</strong>
+                    Olá, Gabriel! Sou o Atlas. Digite um comando ou clique no microfone para navegar entre as abas do projeto!
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border-t border-academic-border flex items-center gap-2">
+                <button id="atlas-mic-btn" onclick="toggleSpeech()" title="Ativar Reconhecimento de Voz" class="p-2 bg-academic-surface hover:bg-wine-light text-academic-text hover:text-wine rounded-xl border border-academic-border transition">
+                    <i class="fa-solid fa-microphone"></i>
+                </button>
+                <input type="text" id="atlas-input" onkeydown="if(event.key==='Enter') sendAtlasMessage()" placeholder="Digite ou fale algo..." class="flex-1 p-2 text-xs bg-academic-bg border border-academic-border rounded-xl outline-none text-academic-text focus:border-wine">
+                <button onclick="sendAtlasMessage()" class="px-3 py-2 bg-wine hover:bg-wine-hover text-white rounded-xl font-bold transition">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <button onclick="toggleAtlasChat()" class="bg-white hover:bg-academic-surface text-academic-text p-3 rounded-2xl shadow-2xl border border-academic-border transition-all flex items-center gap-3 group" title="Conversar com Atlas">
+            <div class="font-mono text-[11px] font-bold text-wine text-right leading-tight hidden sm:block">
+                <div>Atlas Cartográfico</div>
+                <div class="text-[9px] text-academic-muted">Assistente PIBIC</div>
+            </div>
+            <div id="atlas-avatar-face" class="font-mono font-bold text-sm bg-wine text-white px-2.5 py-1.5 rounded-xl border border-wine-border shadow-inner">
+                [ (•_•) ]
+            </div>
+        </button>
+    </div>
+
+    <!-- MODAL TAREFA -->
+    <div id="modal-tarefa" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white border border-academic-border rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl font-mono text-xs">
+            <div class="flex justify-between items-center border-b border-academic-border pb-3">
+                <h3 class="text-sm font-bold text-wine">Nova Atividade / Meta PIBIC-EM</h3>
+                <button onclick="closeModalTarefa()" class="text-academic-muted hover:text-wine"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="form-nova-tarefa" onsubmit="saveNovaTarefa(event)" class="space-y-3">
+                <div>
+                    <label class="block font-bold text-academic-text mb-1">Período / Prazo</label>
+                    <input type="text" id="tarefa-data" required placeholder="Ex: Setembro/2026" class="w-full p-2.5 border border-academic-border rounded-lg bg-academic-bg">
+                </div>
+                <div>
+                    <label class="block font-bold text-academic-text mb-1">Descrição da Atividade</label>
+                    <input type="text" id="tarefa-atividade" required placeholder="Ex: Meta 1 - Revisão de Literatura" class="w-full p-2.5 border border-academic-border rounded-lg bg-academic-bg">
+                </div>
+                <div>
+                    <label class="block font-bold text-academic-text mb-1">Categoria</label>
+                    <select id="tarefa-categoria" class="w-full p-2.5 border border-academic-border rounded-lg bg-academic-bg font-bold">
+                        <option value="Meta SUAP">Meta SUAP Oficial</option>
+                        <option value="Orientação">Orientação</option>
+                        <option value="Coleta de Dados">Coleta de Dados</option>
+                        <option value="Redação">Redação</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold text-academic-text mb-1">Status Inicial</label>
+                    <select id="tarefa-status" class="w-full p-2.5 border border-academic-border rounded-lg bg-academic-bg font-bold">
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em Andamento">Em Andamento</option>
+                        <option value="Concluído">Concluído</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModalTarefa()" class="px-4 py-2 bg-academic-surface text-academic-muted rounded-lg border border-academic-border">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-wine text-white font-bold rounded-lg">Salvar Meta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DADO -->
+    <div id="modal-dado" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white border border-academic-border rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl font-mono text-xs">
+            <div class="flex justify-between items-center border-b border-academic-border pb-3">
+                <h3 class="text-sm font-bold text-wine">Cadastrar Dado Oficial</h3>
+                <button onclick="closeModalDado()" class="text-academic-muted hover:text-wine"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="form-novo-dado" onsubmit="saveNovoDado(event)" class="space-y-3">
+                <div>
+                    <label class="block font-bold text-academic-text mb-1">Categoria</label>
+                    <select id="dado-categoria" class="w-full p-2.5 border border-academic-border rounded-lg bg-academic-bg font-bold">
+                        <option value="Agronegócio">Agronegócio & Soja</option>
+                        <option value="Emprego">Mercado de Trabalho (RAIS)</option>
+                        <option value="Economia">PIB & Rendimentos</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold text-academic-text mb-1">Indicador</label>
+                    <input type="text" id="dado-indicador" required placeholder="Ex: Vínculos em Serviços" class="w-full p-2.5 border border-academic-border rounded-lg bg-academic-bg">
+                </div>
+                <div>
+                    <label class="block font-bold text-academic-text mb-1">Ano</label>
+                    <input type="text" id="dado-ano" required placeholder="Ex: 2024" class="w-full p-2.5 border border-academic-border rounded-lg bg-academic-bg">
+                </div>
+                <div>
+                    <label class="block font-bold text-academic-text mb-1">Valor / Dado</label>
+                    <input type="text" id="dado-valor" required placeholder="Ex: 2.194 vínculos" class="w-full p-2.5 border border-academic-border rounded-lg bg-academic-bg">
+                </div>
+                <div>
+                    <label class="block font-bold text-academic-text mb-1">Fonte Oficial</label>
+                    <input type="text" id="dado-fonte" required placeholder="Ex: RAIS / MTE 2021" class="w-full p-2.5 border border-academic-border rounded-lg bg-academic-bg">
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModalDado()" class="px-4 py-2 bg-academic-surface text-academic-muted rounded-lg border border-academic-border">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-wine text-white font-bold rounded-lg">Salvar Dado</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initial Bibliographic Data including requested authors
+        const defaultFichamentos = [
+            {
+                id: 1,
+                titulo: "SANTOS, Milton (2008) — A Natureza do Espaço: Técnica e Tempo",
+                tags: "#MiltonSantos #MeioTécnico",
+                conteudo: "“O meio técnico-científico-informacional representa a união da ciência e da técnica sob a égide da informação no território.”\n\nAplicação em Ipameri: Explica a implantação da agricultura de precisão e a modernização agrária no cerrado goiano."
+            },
+            {
+                id: 2,
+                titulo: "CASTILHO, Denis (2010) — Modernização e Dinâmica Territorial no Cerrado",
+                tags: "#DenisCastilho #Cerrado",
+                conteudo: "“A expansão da modernização agrária transforma o bioma Cerrado em um polo de acumulação corporativa.”\n\nAplicação em Ipameri: Fundamenta o estudo sobre a expansão dos 104.000 ha de área de soja."
+            },
+            {
+                id: 3,
+                titulo: "LEÃO, Auto (2025) — Infraestrutura e Redes no Agrobusiness Goiano",
+                tags: "#AutoLeão #Infraestrutura",
+                conteudo: "Discute o papel dos eixos de transporte e do fluxo de insumos produtivos para a sustentação das áreas lavráveis na região sudeste de Goiás."
+            },
+            {
+                id: 4,
+                titulo: "CHAUL, Nasr (2015) — A Caminho do Oeste: A Fronteira Agrária Goiana",
+                tags: "#NasrChaul #FronteiraAgrária",
+                conteudo: "Análise histórica da formação territorial de Goiás e a transição da pecuária extensiva para a monocultura mecanizada de grãos."
+            },
+            {
+                id: 5,
+                titulo: "ARRAIS, Tadeu Alencar (2007) — A Produção do Espaço Agrário em Goiás",
+                tags: "#TadeuArrais #EspaçoAgrário",
+                conteudo: "Examina as contradições entre a forte rentabilidade do agronegócio e a centralização dos serviços produtivos nas redes urbanas locais."
+            },
+            {
+                id: 6,
+                titulo: "ALENCAR, Diego Pinheiro et al. (2025) — Transformações Territoriais em Ipameri",
+                tags: "#DiegoAlencar #Ipameri",
+                conteudo: "Estudo específico sobre os impactos diretos da expansão da sojicultura na dinamização do mercado de trabalho de serviços em Ipameri/GO."
+            }
+        ];
+
+        const defaultDados = [
+            { id: 1, categoria: "Agronegócio", indicador: "Área Plantada de Soja", ano: "2024", valor: "104.000 ha (23,73%)", fonte: "IBGE / PAM" },
+            { id: 2, categoria: "Agronegócio", indicador: "Produção Colhida de Soja", ano: "2024", valor: "3,43 milhões ton (10ª em GO)", fonte: "IBGE / PAM" },
+            { id: 3, categoria: "Economia", indicador: "Participação da Agropecuária no PIB", ano: "2021", valor: "37,97%", fonte: "IBGE" },
+            { id: 4, categoria: "Economia", indicador: "Participação da Indústria no PIB", ano: "2021", valor: "31,34%", fonte: "IBGE" },
+            { id: 5, categoria: "Economia", indicador: "Participação dos Serviços no PIB", ano: "2021", valor: "23,71%", fonte: "IBGE" },
+            { id: 6, categoria: "Emprego", indicador: "Empregos Formais em Serviços", ano: "2021", valor: "2.194 vínculos", fonte: "RAIS / MTE" },
+            { id: 7, categoria: "Emprego", indicador: "Empregos Formais na Agropecuária", ano: "2021", valor: "1.400 vínculos", fonte: "RAIS / MTE" },
+            { id: 8, categoria: "Emprego", indicador: "Empregos Formais no Comércio", ano: "2021", valor: "1.043 vínculos", fonte: "RAIS / MTE" }
+        ];
+
+        const defaultTarefas = [
+            { id: 1, data: "01/09 a 30/11/2026", atividade: "Meta 1 — Levantamento bibliográfico e revisão de literatura sobre a modernização agrícola em Ipameri", categoria: "Meta SUAP", status: "Em Andamento", checked: false },
+            { id: 2, data: "01/12/2026 a 28/02/2027", atividade: "Meta 2 — Coleta, sistematização e tratamento estatístico de dados secundários (IBGE/RAIS)", categoria: "Meta SUAP", status: "Pendente", checked: false },
+            { id: 3, data: "01/03 a 31/05/2027", atividade: "Meta 3 — Mapeamento das revendas urbanas, consumo produtivo e análise espacial cartográfica", categoria: "Meta SUAP", status: "Pendente", checked: false },
+            { id: 4, data: "01/06 a 31/08/2027", atividade: "Meta 4 — Redação do relatório final, revisão pelo orientador e submissão dos resultados", categoria: "Meta SUAP", status: "Pendente", checked: false }
+        ];
+
+        let fichamentos = JSON.parse(localStorage.getItem('ip_fichamentos_v2026_clean')) || defaultFichamentos;
+        let dados = JSON.parse(localStorage.getItem('ip_dados_v2026_clean')) || defaultDados;
+        let tarefas = JSON.parse(localStorage.getItem('ip_tarefas_v2026_clean')) || defaultTarefas;
+
+        function enterPlatform() {
+            document.getElementById('landing-screen').classList.add('opacity-0');
+            setTimeout(() => {
+                document.getElementById('landing-screen').classList.add('hidden');
+                document.getElementById('main-platform').classList.remove('hidden');
+                switchTab('visao-geral'); // Set Visão Geral as default active tab
+            }, 300);
+        }
+
+        function exitPlatform() {
+            document.getElementById('main-platform').classList.add('hidden');
+            document.getElementById('landing-screen').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('landing-screen').classList.remove('opacity-0');
+            }, 50);
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('bg-white', 'text-wine', 'shadow-sm', 'border', 'border-academic-border');
+                el.classList.add('text-academic-muted');
+            });
+
+            const targetSec = document.getElementById(`sec-${tabId}`);
+            if (targetSec) targetSec.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white', 'text-wine', 'shadow-sm', 'border', 'border-academic-border');
+                activeBtn.classList.remove('text-academic-muted');
+            }
+
+            if (tabId === 'dados') renderCharts();
+            if (tabId === 'leituras') renderFichamentos();
+            if (tabId === 'cronograma') renderCronograma();
+            if (tabId === 'folheto') updateDossierMetrics();
+        }
+
+        // Mascot Atlas Control
+        function toggleAtlasChat() {
+            document.getElementById('atlas-chat-box').classList.toggle('hidden');
+        }
+
+        function setAtlasExpression(face) {
+            const el = document.getElementById('atlas-avatar-face');
+            if (el) el.innerText = face;
+        }
+
+        function appendAtlasMessage(sender, text) {
+            const container = document.getElementById('atlas-messages');
+            const div = document.createElement('div');
+            if (sender === 'user') {
+                div.className = "bg-white p-2.5 rounded-xl border border-academic-border text-right ml-4";
+                div.innerHTML = `<strong class="text-academic-text block mb-1 font-bold">Você:</strong> ${text}`;
+            } else {
+                div.className = "bg-wine-light p-2.5 rounded-xl border border-wine-border mr-4";
+                div.innerHTML = `<strong class="text-wine block mb-1 font-bold"><i class="fa-solid fa-globe"></i> Atlas:</strong> ${text}`;
+            }
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendAtlasMessage(customText = null) {
+            const input = document.getElementById('atlas-input');
+            const text = customText || input.value.trim();
+            if (!text) return;
+
+            appendAtlasMessage('user', text);
+            if (!customText) input.value = '';
+            setAtlasExpression('[ (O_o) ]');
+
+            setTimeout(() => {
+                const lower = text.toLowerCase();
+                let reply = "Entendido! Estou acompanhando o projeto de pesquisa PIBIC-EM 2026/2027 em Ipameri/GO.";
+
+                if (lower.includes('visão') || lower.includes('geral') || lower.includes('resumo') || lower.includes('início')) {
+                    switchTab('visao-geral');
+                    reply = "Navegando para a Visão Geral do Projeto.";
+                } else if (lower.includes('dado') || lower.includes('indicador') || lower.includes('soja') || lower.includes('rais')) {
+                    switchTab('dados');
+                    reply = "Abrindo o Banco de Dados com informações do IBGE e RAIS!";
+                } else if (lower.includes('cronograma') || lower.includes('meta')) {
+                    switchTab('cronograma');
+                    reply = "Exibindo o Cronograma & Metas SUAP.";
+                } else if (lower.includes('fichamento') || lower.includes('leitura') || lower.includes('santos')) {
+                    switchTab('leituras');
+                    reply = "Exibindo os fichamentos conceituais e autores de referência.";
+                } else if (lower.includes('relatório') || lower.includes('abnt')) {
+                    switchTab('relatorio');
+                    reply = "Carregando o Editor de Relatório Técnico ABNT!";
+                } else if (lower.includes('dossiê') || lower.includes('folheto')) {
+                    switchTab('folheto');
+                    reply = "Acessando o Dossiê Executivo Reativo.";
+                } else if (lower.includes('equipe') || lower.includes('suap') || lower.includes('orientador')) {
+                    switchTab('equipe');
+                    reply = "Exibindo as informações da Equipe e homologação no SUAP.";
+                }
+
+                setAtlasExpression('[ (•_•) ]');
+                appendAtlasMessage('atlas', reply);
+            }, 400);
+        }
+
+        function toggleSpeech() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                appendAtlasMessage('atlas', 'Navegador sem suporte para voz. Digite no campo!');
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.interimResults = false;
+
+            const micBtn = document.getElementById('atlas-mic-btn');
+            micBtn.classList.add('bg-wine', 'text-white', 'animate-pulse');
+            setAtlasExpression('[ (o_O) ]');
+
+            recognition.onresult = function(event) {
+                const speech = event.results[0][0].transcript;
+                micBtn.classList.remove('bg-wine', 'text-white', 'animate-pulse');
+                sendAtlasMessage(speech);
+            };
+
+            recognition.onerror = function() {
+                micBtn.classList.remove('bg-wine', 'text-white', 'animate-pulse');
+                setAtlasExpression('[ (•_•) ]');
+            };
+
+            recognition.start();
+        }
+
+        // Cronograma Logic
+        function renderCronograma() {
+            const tbody = document.getElementById('tabela-cronograma-body');
+            const filter = document.getElementById('filter-status').value;
+            tbody.innerHTML = '';
+            const list = filter === 'TODOS' ? tarefas : tarefas.filter(t => t.status === filter);
+
+            let completedCount = 0;
+            tarefas.forEach(t => { if (t.checked || t.status === 'Concluído') completedCount++; });
+            const percent = Math.round((completedCount / tarefas.length) * 100) || 0;
+            
+            document.getElementById('progress-bar-fill').style.width = `${percent}%`;
+            document.getElementById('progress-percent-text').innerText = `${percent}% Concluído`;
+
+            list.forEach(t => {
+                let badgeClass = "bg-amber-100 text-amber-800 border-amber-300";
+                if (t.status === "Concluído" || t.checked) badgeClass = "bg-emerald-100 text-emerald-800 border-emerald-300";
+                if (t.status === "Em Andamento") badgeClass = "bg-blue-100 text-blue-800 border-blue-300";
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-academic-surface transition";
+                tr.innerHTML = `
+                    <td class="p-3 text-center">
+                        <input type="checkbox" ${t.checked ? 'checked' : ''} onchange="toggleCheckTarefa(${t.id})" class="rounded text-wine focus:ring-wine h-4 w-4">
+                    </td>
+                    <td class="p-3 font-mono font-bold text-wine">${t.data}</td>
+                    <td class="p-3 font-medium text-academic-text">${t.atividade}</td>
+                    <td class="p-3 font-mono"><span class="px-2 py-0.5 bg-academic-surface text-academic-text rounded border border-academic-border text-[10px] font-bold">${t.categoria}</span></td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${badgeClass}">${t.checked ? 'Concluído' : t.status}</span></td>
+                    <td class="p-3 text-right space-x-1 font-mono">
+                        <button onclick="deleteTarefa(${t.id})" class="text-academic-muted hover:text-wine text-xs p-1"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function toggleCheckTarefa(id) {
+            const item = tarefas.find(t => t.id === id);
+            if (item) {
+                item.checked = !item.checked;
+                item.status = item.checked ? 'Concluído' : 'Em Andamento';
+                localStorage.setItem('ip_tarefas_v2026_clean', JSON.stringify(tarefas));
+                renderCronograma();
+            }
+        }
+
+        function openModalTarefa() {
+            document.getElementById('form-nova-tarefa').reset();
+            document.getElementById('modal-tarefa').classList.remove('hidden');
+        }
+        function closeModalTarefa() {
+            document.getElementById('modal-tarefa').classList.add('hidden');
+        }
+
+        function saveNovaTarefa(e) {
+            e.preventDefault();
+            const newItem = {
+                id: Date.now(),
+                data: document.getElementById('tarefa-data').value,
+                atividade: document.getElementById('tarefa-atividade').value,
+                categoria: document.getElementById('tarefa-categoria').value,
+                status: document.getElementById('tarefa-status').value,
+                checked: document.getElementById('tarefa-status').value === 'Concluído'
+            };
+            tarefas.push(newItem);
+            localStorage.setItem('ip_tarefas_v2026_clean', JSON.stringify(tarefas));
+            closeModalTarefa();
+            renderCronograma();
+        }
+
+        function deleteTarefa(id) {
+            tarefas = tarefas.filter(i => i.id !== id);
+            localStorage.setItem('ip_tarefas_v2026_clean', JSON.stringify(tarefas));
+            renderCronograma();
+        }
+
+        // Fichamentos Logic
+        function renderFichamentos() {
+            const container = document.getElementById('fichamentos-container');
+            container.innerHTML = '';
+            fichamentos.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-xl border border-academic-border shadow-sm space-y-3";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start border-b border-academic-border pb-2">
+                        <h4 class="font-editorial font-bold text-academic-text text-sm sm:text-base">${item.titulo}</h4>
+                        <button onclick="deleteFichamento(${item.id})" class="text-academic-muted hover:text-wine text-xs font-mono">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    <span class="inline-block px-2.5 py-0.5 bg-wine-light text-wine rounded text-[10px] font-mono font-bold border border-wine-border">${item.tags}</span>
+                    <p class="text-xs text-academic-text leading-relaxed whitespace-pre-line font-normal">${item.conteudo}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function saveFichamento(e) {
+            e.preventDefault();
+            const newItem = {
+                id: Date.now(),
+                titulo: document.getElementById('fich-titulo').value,
+                tags: document.getElementById('fich-tags').value || '#Geografia',
+                conteudo: document.getElementById('fich-conteudo').value
+            };
+            fichamentos.unshift(newItem);
+            localStorage.setItem('ip_fichamentos_v2026_clean', JSON.stringify(fichamentos));
+            document.getElementById('form-fichamento').reset();
+            renderFichamentos();
+        }
+
+        function deleteFichamento(id) {
+            fichamentos = fichamentos.filter(i => i.id !== id);
+            localStorage.setItem('ip_fichamentos_v2026_clean', JSON.stringify(fichamentos));
+            renderFichamentos();
+        }
+
+        // Data & Charts Logic
+        function renderTabela() {
+            const tbody = document.getElementById('tabela-dados-body');
+            tbody.innerHTML = '';
+            dados.forEach(d => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-academic-surface transition";
+                tr.innerHTML = `
+                    <td class="p-3 font-mono"><span class="px-2 py-0.5 bg-wine-light text-wine rounded text-[10px] font-bold border border-wine-border">${d.categoria}</span></td>
+                    <td class="p-3 font-bold text-academic-text">${d.indicador}</td>
+                    <td class="p-3 font-mono text-xs font-bold">${d.ano}</td>
+                    <td class="p-3 font-mono font-bold text-academic-text">${d.valor}</td>
+                    <td class="p-3 font-mono text-[11px] text-academic-muted font-bold">${d.fonte}</td>
+                    <td class="p-3 text-right font-mono">
+                        <button onclick="deleteDado(${d.id})" class="text-academic-muted hover:text-wine text-xs p-1"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterTabela() {
+            const term = document.getElementById('search-dados').value.toLowerCase();
+            const rows = document.querySelectorAll('#tabela-dados-body tr');
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(term) ? '' : 'none';
+            });
+        }
+
+        function openModalDado() {
+            document.getElementById('form-novo-dado').reset();
+            document.getElementById('modal-dado').classList.remove('hidden');
+        }
+        function closeModalDado() {
+            document.getElementById('modal-dado').classList.add('hidden');
+        }
+
+        function saveNovoDado(e) {
+            e.preventDefault();
+            const newItem = {
+                id: Date.now(),
+                categoria: document.getElementById('dado-categoria').value,
+                indicador: document.getElementById('dado-indicador').value,
+                ano: document.getElementById('dado-ano').value,
+                valor: document.getElementById('dado-valor').value,
+                fonte: document.getElementById('dado-fonte').value
+            };
+            dados.unshift(newItem);
+            localStorage.setItem('ip_dados_v2026_clean', JSON.stringify(dados));
+            closeModalDado();
+            renderTabela();
+        }
+
+        function deleteDado(id) {
+            dados = dados.filter(i => i.id !== id);
+            localStorage.setItem('ip_dados_v2026_clean', JSON.stringify(dados));
+            renderTabela();
+        }
+
+        let cEmp, cPIB;
+        function renderCharts() {
+            renderTabela();
+
+            if (cEmp) cEmp.destroy();
+            if (cPIB) cPIB.destroy();
+
+            const ctx1 = document.getElementById('chartEmprego').getContext('2d');
+            cEmp = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Serviços (2.194)', 'Agropecuária (1.400)', 'Comércio (1.043)'],
+                    datasets: [{
+                        data: [2194, 1400, 1043],
+                        backgroundColor: ['#3B82F6', '#138836', '#F59E0B']
+                    }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { family: 'JetBrains Mono', size: 10 } } } }
+                }
+            });
+
+            const ctx2 = document.getElementById('chartPIB').getContext('2d');
+            cPIB = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Agropecuária', 'Indústria', 'Serviços'],
+                    datasets: [{
+                        label: '% do PIB Total de Ipameri (2021)',
+                        data: [37.97, 31.34, 23.71],
+                        backgroundColor: ['#138836', '#7A1C30', '#3B82F6'],
+                        borderRadius: 6
+                    }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { font: { family: 'JetBrains Mono', size: 10 } } } }
+                }
+            });
+        }
+
+        // Relatório ABNT & Word Counter Functions
+        function updateWordCounts() {
+            ['1', '2', '3'].forEach(num => {
+                const text = document.getElementById(`rel-sec-${num}`).value.trim();
+                const count = text ? text.split(/\s+/).length : 0;
+                document.getElementById(`word-count-${num}`).innerText = `${count} palavra(s)`;
+            });
+        }
+
+        function saveRelatorioText() {
+            const data = {
+                sec1: document.getElementById('rel-sec-1').value,
+                sec2: document.getElementById('rel-sec-2').value,
+                sec3: document.getElementById('rel-sec-3').value
+            };
+            localStorage.setItem('ip_relatorio_draft', JSON.stringify(data));
+            alert('Rascunho do Relatório salvo com sucesso!');
+        }
+
+        function loadRelatorioText() {
+            const saved = JSON.parse(localStorage.getItem('ip_relatorio_draft'));
+            if (saved) {
+                document.getElementById('rel-sec-1').value = saved.sec1 || '';
+                document.getElementById('rel-sec-2').value = saved.sec2 || '';
+                document.getElementById('rel-sec-3').value = saved.sec3 || '';
+                updateWordCounts();
+            }
+        }
+
+        function printRelatorio() {
+            window.print();
+        }
+
+        // Dossier Metrics Dynamic Update
+        function updateDossierMetrics() {
+            document.getElementById('dos-fich-count').innerText = `${fichamentos.length} Obras Fichadas`;
+            let completedCount = 0;
+            tarefas.forEach(t => { if (t.checked || t.status === 'Concluído') completedCount++; });
+            const percent = Math.round((completedCount / tarefas.length) * 100) || 0;
+            document.getElementById('dos-progress-val').innerText = `${percent}% Concluído`;
+        }
+
+        window.onload = function() {
+            renderFichamentos();
+            renderTabela();
+            renderCronograma();
+            loadRelatorioText();
+        };
+    </script>
+</body>
+</html>
