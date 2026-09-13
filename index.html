@@ -1348,5 +1348,52 @@
             loadRelatorioText();
         };
     </script>
-</body>
+</body><!-- Bibliotecas do Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+<script>
+  // Suas credenciais salvas do Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyB2_Ou5U1pc13NYDoQIQ0KHdhW1W5rIJPE",
+    authDomain: "projeto-geo-18492.firebaseapp.com",
+    databaseURL: "https://projeto-geo-18492-default-rtdb.firebaseio.com",
+    projectId: "projeto-geo-18492",
+    storageBucket: "projeto-geo-18492.firebasestorage.app",
+    messagingSenderId: "499355559294",
+    appId: "1:499355559294:web:dd036b0648766e26777f2f",
+    measurementId: "G-GBCLJ3GTZB"
+  };
+
+  // Inicializa a conexão com a nuvem
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  const database = firebase.database();
+
+  // Função automática para escutar e sincronizar todos os dados da plataforma
+  database.ref('observatorio_dados').on('value', (snapshot) => {
+    const dadosNuvem = snapshot.val();
+    if (dadosNuvem) {
+      // Salva os dados recebidos da nuvem no navegador local para atualizar a tela
+      Object.keys(dadosNuvem).forEach(chave => {
+        localStorage.setItem(chave, typeof dadosNuvem[chave] === 'object' ? JSON.stringify(dadosNuvem[chave]) : dadosNuvem[chave]);
+      });
+    }
+  });
+
+  // Sobrescreve a função de salvar do localStorage para mandar direto para a nuvem
+  const salvarOriginal = localStorage.setItem;
+  localStorage.setItem = function(chave, valor) {
+    salvarOriginal.apply(this, arguments);
+    if (typeof database !== 'undefined') {
+      try {
+        const valorParaSalvar = (typeof valor === 'string' && (valor.startsWith('{') || valor.startsWith('['))) ? JSON.parse(valor) : valor;
+        database.ref('observatorio_dados/' + chave).set(valorParaSalvar);
+      } catch(e) {
+        database.ref('observatorio_dados/' + chave).set(valor);
+      }
+    }
+  };
+</script>
 </html>
