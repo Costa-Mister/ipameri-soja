@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comboio do Aroma - Layout 3D Interativo</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Three.js e OrbitControls para Controle do Mouse -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <style>
+    :root {
+      /* PADRONAGEM DE CORES RETRO */
+      --retro-bg: #FAF5EC;          /* Creme Claro */
+      --retro-red: #D95338;         /* Vermelho Terracota */
+      --retro-orange: #E8864A;      /* Laranja Claro */
+      --retro-yellow: #F3C258;      /* Amarelo Ocre */
+      --retro-teal: #2C9692;        /* Verde Água / Teal */
+      --retro-dark-blue: #1A2F3D;   /* Azul Petróleo Escuro */
+      
+      /* MAPEAMENTO PARA A PLATAFORMA */
+      --bg-main: #FAF5EC;
+      --bg-card: #FFFFFF;
+      --border-dark: #1A2F3D;
+      --text-main: #1A2F3D;
+      --text-muted: #2C9692;
+      --btn-bg: #1A2F3D;
+      --btn-hover: #2C9692;
+      --btn-selected-red: #D95338;
+      --shadow-retro: 4px 4px 0px #1A2F3D;
+      --shadow-retro-hover: 6px 6px 0px #1A2F3D;
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s, color 0.2s;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Courier Prime', monospace;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-image: 
+        linear-gradient(135deg, rgba(217, 83, 56, 0.05) 0%, transparent 25%),
+        linear-gradient(135deg, rgba(243, 194, 88, 0.08) 25%, transparent 50%),
+        linear-gradient(135deg, rgba(44, 150, 146, 0.05) 50%, transparent 75%);
+    }
+
+    /* BARRAS DE COR RETRO NA BORDA SUPERIOR */
+    .retro-stripe-bar {
+      height: 8px;
+      width: 100%;
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .stripe { flex: 1; height: 100%; }
+    .stripe-1 { background-color: var(--retro-red); }
+    .stripe-2 { background-color: var(--retro-orange); }
+    .stripe-3 { background-color: var(--retro-yellow); }
+    .stripe-4 { background-color: var(--retro-teal); }
+    .stripe-5 { background-color: var(--retro-dark-blue); }
+
+    /* SPLASH SCREEN / CAPA */
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--retro-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .splash-card {
+      background: var(--bg-card);
+      border: 3px solid var(--border-dark);
+      box-shadow: var(--shadow-retro);
+      padding: 40px 35px;
+      border-radius: 12px;
+      max-width: 520px;
+      width: 90%;
+      animation: float 3s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .splash-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, 
+        var(--retro-red) 0% 20%, 
+        var(--retro-orange) 20% 40%, 
+        var(--retro-yellow) 40% 60%, 
+        var(--retro-teal) 60% 80%, 
+        var(--retro-dark-blue) 80% 100%);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .splash-title {
+      font-family: 'VT323', monospace;
+      font-size: 3rem;
+      margin: 15px 0 5px 0;
+      color: var(--retro-dark-blue);
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .splash-info {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      border-top: 2px dashed var(--retro-teal);
+      border-bottom: 2px dashed var(--retro-teal);
+      padding: 15px 0;
+      margin: 20px 0;
+      width: 100%;
+      color: var(--retro-dark-blue);
+    }
+
+    .splash-info strong {
+      color: var(--retro-red);
+    }
+
+    /* BOTÕES CUSTOMIZADOS */
+    .btn-brown {
+      background-color: var(--retro-dark-blue);
+      color: var(--retro-bg);
+      font-family: 'VT323', monospace;
+      font-size: 1.8rem;
+      padding: 10px 28px;
+      border: 3px solid var(--border-dark);
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: var(--shadow-retro);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .btn-brown:hover {
+      background-color: var(--retro-teal);
+      color: #FFF;
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-retro-hover);
+    }
+
+    /* CONTEÚDO PRINCIPAL */
+    #main-content {
+      display: none;
+      width: 95%;
+      max-width: 1150px;
+      padding: 30px 20px;
+      animation: fadeIn 0.8s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      background: var(--bg-card);
+      border: 3px solid var(--border-dark);
+      box-shadow: var(--shadow-retro);
+      padding: 18px 25px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, 
+        var(--retro-red) 0% 20%, 
+        var(--retro-orange) 20% 40%, 
+        var(--retro-yellow) 40% 60%, 
+        var(--retro-teal) 60% 80%, 
+        var(--retro-dark-blue) 80% 100%);
+    }
+
+    .header-title-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    h1 {
+      font-family: 'VT323', monospace;
+      font-size: 2.7rem;
+      margin: 0;
+      color: var(--retro-dark-blue);
+      line-height: 1;
+    }
+
+    .equipe-badge {
+      background: var(--retro-bg);
+      border: 2px solid var(--border-dark);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: var(--retro-dark-blue);
+      font-weight: bold;
+    }
+
+    /* BANNER ESTÉTICA FASTFETCH / CLI */
+    .fastfetch-banner {
+      background: var(--retro-dark-blue);
+      color: #E2E8F0;
+      border: 3px solid var(--border-dark);
+      box-shadow: var(--shadow-retro);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      font-family: 'Fira Code', 'Courier Prime', monospace;
+      font-size: 0.82rem;
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      overflow-x: auto;
+    }
+
+    .fastfetch-ascii {
+      color: var(--retro-yellow);
+      font-weight: bold;
+      line-height: 1.15;
+      white-space: pre;
+      user-select: none;
+    }
+
+    .fastfetch-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex-grow: 1;
+    }
+
+    .fastfetch-info .user-host {
+      color: var(--retro-orange);
+      font-weight: bold;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+    }
+
+    .fastfetch-info .key {
+      color: var(--retro-teal);
+      font-weight: 600;
+    }
+
+    .fastfetch-info .val {
+      color: #FAF5EC;
+    }
+
+    .color-blocks {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .color-block {
+      width: 18px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
+    .panel-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 850px) {
+      .panel-container {
+        grid-template-columns: 1fr;
+      }
+      .fastfetch-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .panel {
+      background: var(--bg-card);
+      border: 3px solid var(--border-dark);
+      box-shadow: var(--shadow-retro);
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel h2 {
+      font-family: 'VT323', monospace;
+      font-size: 1.9rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--border-dark);
+      padding-bottom: 8px;
+      color: var(--retro-dark-blue);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-tag {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      background: var(--retro-bg);
+      color: var(--retro-teal);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border-dark);
+    }
+
+    /* ESTAÇÕES DE TRABALHO */
+    .grid-estacoes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .btn-estacao {
+      background: var(--retro-bg);
+      color: var(--retro-dark-blue);
+      border: 2px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 2px 2px 0px var(--border-dark);
+      font-family: 'Courier Prime', monospace;
+    }
+
+    .btn-estacao:hover {
+      background: #FFF;
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-retro-hover);
+      border-color: var(--retro-teal);
+    }
+
+    /* ABA SELECIONADA COM COR RETRO */
+    .btn-estacao.active {
+      background: var(--retro-red);
+      color: #FFFFFF;
+      border-color: var(--border-dark);
+      box-shadow: var(--shadow-retro);
+    }
+
+    .btn-estacao.active .responsavel {
+      background: rgba(0, 0, 0, 0.25);
+      color: #FFF;
+    }
+
+    .btn-estacao .num {
+      font-family: 'VT323', monospace;
+      font-size: 1.4rem;
+      font-weight: bold;
+      display: block;
+    }
+
+    .btn-estacao .responsavel {
+      font-size: 0.75rem;
+      margin-top: 6px;
+      display: inline-block;
+      background: rgba(44, 150, 146, 0.15);
+      color: var(--retro-dark-blue);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    /* CANVAS 3D */
+    #canvas-container {
+      width: 100%;
+      height: 270px;
+      background: var(--retro-dark-blue);
+      border: 2px solid var(--border-dark);
+      border-radius: 8px;
+      margin-bottom: 15px;
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
+    }
+
+    #canvas-container:active {
+      cursor: grabbing;
+    }
+
+    .controls-hint {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(26, 47, 61, 0.85);
+      color: var(--retro-yellow);
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      font-family: 'Fira Code', monospace;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .detail-card {
+      background: var(--retro-bg);
+      border: 2px dashed var(--retro-teal);
+      padding: 15px;
+      border-radius: 8px;
+      flex-grow: 1;
+      color: var(--retro-dark-blue);
+      font-size: 0.9rem;
+    }
+
+    /* BOTÃO LATERAL FIXO TERMINAL */
+    #btn-terminal-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--retro-dark-blue);
+      color: var(--retro-yellow);
+      border: 3px solid var(--border-dark);
+      padding: 12px 18px;
+      font-family: 'VT323', monospace;
+      font-size: 1.4rem;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: var(--shadow-retro);
+      z-index: 100;
+    }
+
+    #btn-terminal-toggle:hover {
+      background: var(--retro-teal);
+      color: #FFF;
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-retro-hover);
+    }
+
+    /* TERMINAL OVERLAY */
+    #terminal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 47, 61, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(2px);
+    }
+
+    .terminal-window {
+      background: #111C24;
+      border: 3px solid var(--border-dark);
+      width: 85%;
+      max-width: 850px;
+      height: 75vh;
+      border-radius: 8px;
+      box-shadow: var(--shadow-retro);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .terminal-header {
+      background: var(--retro-dark-blue);
+      color: var(--retro-yellow);
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      border-bottom: 2px solid var(--border-dark);
+    }
+
+    .terminal-close-btn {
+      background: var(--retro-red);
+      color: #fff;
+      border: 1px solid var(--border-dark);
+      width: 28px;
+      height: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: monospace;
+    }
+
+    .terminal-body {
+      padding: 18px;
+      overflow-y: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: var(--retro-teal);
+      white-space: pre-wrap;
+      word-break: break-all;
+      flex-grow: 1;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRAS RETRO DE COR SUPERIOR -->
+  <div class="retro-stripe-bar">
+    <div class="stripe stripe-1"></div>
+    <div class="stripe stripe-2"></div>
+    <div class="stripe stripe-3"></div>
+    <div class="stripe stripe-4"></div>
+    <div class="stripe stripe-5"></div>
+  </div>
+
+  <!-- TELA DE ENTRADA (CAPA) -->
+  <div id="splash-screen">
+    <div class="splash-card">
+
+      <div class="splash-title">COMBOIO DO AROMA</div>
+      <p style="margin: 0; font-size: 0.95rem; color: var(--retro-teal); font-weight: bold;">Simulador & Maquete 3D Interativa</p>
+      
+      <div class="splash-info">
+        <strong>Matéria:</strong> Gestão de Produção<br>
+        <strong>Professora:</strong> Raquel Canela<br>
+        <strong>Equipe:</strong> Gabriel e Vitor
+      </div>
+
+      <button class="btn-brown" onclick="entrarPlataforma()">[ ENTRAR NA MAQUETE ]</button>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div id="main-content">
+    <header>
+      <div class="header-title-container">
+        <div>
+          <h1>Comboio do Aroma</h1>
+          <small style="color: var(--retro-teal); font-weight: bold;">Atividade de Gestão de Produção — Profª Raquel Canela</small>
+        </div>
+      </div>
+
+      <div class="equipe-badge">
+        👥 Gabriel | Vitor
+      </div>
+    </header>
+
+    <!-- PAINEL FASTFETCH / DETALHES DE SISTEMA -->
+    <div class="fastfetch-banner">
+      <div class="fastfetch-ascii">
+   ___ 
+  / __|  COMBOIO DO AROMA v2.0
+ | (__   ---------------------
+  \___|  MAQUETE VIRTUAL 3D
+      </div>
+      <div class="fastfetch-info">
+        <div class="user-host">producao@comboio-do-aroma-os</div>
+        <div><span class="key">Alunos:</span> <span class="val">Gabriel, Vitor</span></div>
+        <div><span class="key">Matéria:</span> <span class="val">Gestão de Produção</span></div>
+        <div><span class="key">Professora:</span> <span class="val">Raquel Canela</span></div>
+        <div><span class="key">Layout:</span> <span class="val">Celular</span></div>
+        <div class="color-blocks">
+          <div class="color-block" style="background: var(--retro-red);"></div>
+          <div class="color-block" style="background: var(--retro-orange);"></div>
+          <div class="color-block" style="background: var(--retro-yellow);"></div>
+          <div class="color-block" style="background: var(--retro-teal);"></div>
+          <div class="color-block" style="background: var(--retro-dark-blue);"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-container">
+      
+      <!-- PAINEL DA LINHA DE MONTAGEM -->
+      <div class="panel">
+        <h2>
+          <span>🏭 Estações de Trabalho</span>
+          <span class="panel-tag">ESTAÇÕES</span>
+        </h2>
+        <p><small style="color: var(--retro-teal);">Clique nas abas para alterar a etapa:</small></p>
+
+        <div class="grid-estacoes">
+          <button class="btn-estacao active" onclick="carregarEstacao(1)">
+            <span class="num">E-01</span> Almoxarifado
+            <span class="responsavel">Resp: Gabriel</span>
+          </button>
+
+          <button class="btn-estacao" onclick="carregarEstacao(2)">
+            <span class="num">E-02</span> Desrotulagem
+            <span class="responsavel">Resp: Vitor</span>
+          </button>
+
+          <button class="btn-estacao" onclick="carregarEstacao(3)">
+            <span class="num">E-03</span> Envase do Aroma
+            <span class="responsavel">Resp: Gabriel</span>
+          </button>
+
+          <button class="btn-estacao" onclick="carregarEstacao(4)">
+            <span class="num">E-04</span> Novo Rótulo
+            <span class="responsavel">Resp: Vitor</span>
+          </button>
+
+          <button class="btn-estacao" onclick="carregarEstacao(5)">
+            <span class="num">E-05</span> Kit Palitinhos
+            <span class="responsavel">Resp: Gabriel</span>
+          </button>
+
+          <button class="btn-estacao" onclick="carregarEstacao(6)">
+            <span class="num">E-06</span> Expedição
+            <span class="responsavel">Resp: Vitor</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PAINEL DE MAQUETE 3D E INFORMAÇÕES -->
+      <div class="panel">
+        <h2>
+          <span>🧊 Maquete 3D Interativa</span>
+          <span class="panel-tag">THREE.JS</span>
+        </h2>
+        
+        <!-- CANVAS THREE.JS -->
+        <div id="canvas-container">
+          <div class="controls-hint">🖱️ Arraste para girar | Scroll para zoom</div>
+        </div>
+
+        <div class="detail-card">
+          <h3 id="estacao-nome" style="margin-top:0; color:var(--retro-red); font-family: 'VT323', monospace; font-size: 1.6rem;">1. Almoxarifado</h3>
+          <p><strong>Operador Responsável:</strong> <span id="estacao-resp">Gabriel</span></p>
+          <p id="estacao-desc" style="font-size: 0.88rem; line-height: 1.5; margin-bottom: 0;">
+            Gabriel organizando a caixa com garrafas PET transparentes recebidas para produção.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTÃO LATERAL FIXO -->
+  <button id="btn-terminal-toggle" onclick="toggleTerminal()">&lt;/&gt; CÓDIGO</button>
+
+  <!-- TERMINAL OVERLAY -->
+  <div id="terminal-overlay">
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <span>fastfetch@comboio-aroma:~ $ cat codigo_fonte.html</span>
+        <button class="terminal-close-btn" onclick="toggleTerminal()">X</button>
+      </div>
+      <div class="terminal-body" id="terminal-content">
+        <!-- Código injetado via JS -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // TERMINAL INTERATIVO
+    function toggleTerminal() {
+      const terminal = document.getElementById('terminal-overlay');
+      const terminalContent = document.getElementById('terminal-content');
+      
+      if (terminal.style.display === 'flex') {
+        terminal.style.display = 'none';
+      } else {
+        terminal.style.display = 'flex';
+        terminalContent.textContent = document.documentElement.outerHTML;
+      }
+    }
+
+    const dadosEstacoes = {
+      1: {
+        nome: '1. Almoxarifado',
+        resp: 'Gabriel',
+        desc: 'Gabriel ao lado da mesa de trabalho, organizando a caixa com garrafas PET transparentes cruas recebidas para produção.'
+      },
+      2: {
+       
